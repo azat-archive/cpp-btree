@@ -410,7 +410,7 @@ struct btree_binary_search_plain_compare {
 // Dispatch helper class for using binary search with compare-to.
 template <typename K, typename N, typename CompareTo>
 struct btree_binary_search_compare_to {
-  static int lower_bound(const K &k, const N &n, CompareTo comp)  {
+  static int lower_bound(const K &k, const N &n, CompareTo)  {
     return n.binary_search_compare_to(k, 0, n.count(), CompareTo());
   }
   static int upper_bound(const K &k, const N &n, CompareTo comp)  {
