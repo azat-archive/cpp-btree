@@ -691,7 +691,7 @@ class btree_node {
     f->count = 0;
     f->parent = parent;
     if (!NDEBUG) {
-      memset(&f->values, 0, max_count * sizeof(value_type));
+      memset(&f->values, 0, (size_t)max_count * sizeof(value_type));
     }
     return n;
   }
@@ -1257,7 +1257,7 @@ class btree : public Params::key_compare {
   node_type* new_leaf_root_node(int max_count) {
     leaf_fields *p = reinterpret_cast<leaf_fields*>(
         mutable_internal_allocator()->allocate(
-            sizeof(base_fields) + max_count * sizeof(value_type)));
+            sizeof(base_fields) + (size_t)max_count * sizeof(value_type)));
     return node_type::init_leaf(p, reinterpret_cast<node_type*>(p), max_count);
   }
   void delete_internal_node(node_type *node) {
@@ -1275,7 +1275,7 @@ class btree : public Params::key_compare {
     node->destroy();
     mutable_internal_allocator()->deallocate(
         reinterpret_cast<char*>(node),
-        sizeof(base_fields) + node->max_count() * sizeof(value_type));
+        sizeof(base_fields) + (size_t)node->max_count() * sizeof(value_type));
   }
 
   // Rebalances or splits the node iter points to.
